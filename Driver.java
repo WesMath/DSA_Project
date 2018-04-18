@@ -9,18 +9,30 @@ class Driver{
 //TODO add addTable helper method
 
    public static void main(String[] args) throws IOException{
-   
-      //TODO set up the restaurant before opening
       String input = "";
+      int temp_size, amount;//Prevents repeated method calls for every loop evaluation
+      String output;//Collects relevant output and waits to perform file I/O once
+      boolean table_found;
+      String temp_name;
       /*
       FullTables, EmptyNoPets, EmptyPets, PartiesInLine
       */
-      ListArrayBasedPlus<Table> FullTables = new ListArrayBasedPlus<Table>();
+      ListArrayBasedPlus<Table> FullTables = new ListArrayBasedPlus<Table>();//will remain empty until restaurant opens
       ListArrayBasedPlus<Table> EmptyNoPets = new ListArrayBasedPlus<Table>();
       ListArrayBasedPlus<Table> EmptyPets = new ListArrayBasedPlus<Table>();
-      ListArrayBasedPlus<Party> PartiesInLine = new ListArrayBasedPlus<Party>();
-
+      ListArrayBasedPlus<Party> PartiesInLine = new ListArrayBasedPlus<Party>();//will remain empty until restaurant opens
+      System.out.println("How many tables does your pet-friendly section have?");
+      amount = Integer.parseInt(stdin.readLine().trim());
+      System.out.println(amount);//echo input
+      for(int i = 0; i < amount; i++){//No tables have been placed in the No-pets section yet, so only check this section for uniqueness
       
+      }
+      System.out.println("How many tables does your no-pets section have?");
+      amount = Integer.parseInt(stdin.readLine().trim());
+      System.out.println(amount);//echo input
+      for(int i = 0; i < amount; i++){//check tables in both this section and the pet section for uniqueness
+      
+      }
       
       String menu = "0.  Close the restaurant.\n1.   Customer party enters the restaurant.\n"+
       "2.   Customer party is seated and served.\n3.   Customer party leaves the restaurant.\n"+
@@ -29,9 +41,7 @@ class Driver{
       
       
       System.out.println(menu);
-      int temp_size;//Prevents repeated method calls for every loop evaluation
-      String output;//Collects relevant output and waits to perform file I/O once
-      boolean table_found;
+      
       while(!input.equals("0")){
          System.out.println("Please make your menu selection now: ");
          input = stdin.readLine().trim();
@@ -83,7 +93,58 @@ class Driver{
             case "3"://Customer party leaves the restaurant.
             
             case "4"://Add a table.
-            
+               System.out.println("To which section would you like to add this table?(P/N)");
+					output =	stdin.readLine().trim();
+					System.out.println(output);//echo their decision
+					if(!(output.equals("P")	||	output.equals("N"))){//Validate input
+						System.out.println("Invalid section selection; please try again.");
+						break;
+					}
+					table_found	= true;
+				   while(table_found){
+                  table_found = false;
+   					System.out.println("Please provide a unique name for this table: ");
+   					temp_name =	stdin.readLine().trim();
+   					System.out.println(temp_name);//echo input
+   					temp_size =	EmptyNoPets.size();
+   					for(int i =	0;	i < temp_size;	i++){
+   						if(EmptyNoPets.get(i).getName().equals(temp_name)){
+   							System.out.println("Table "+output+" already exists.");//Will then reprompt for unique name
+   							table_found = true;
+                        break;//Stops needless execution	of	the loop
+   						}					 
+					   }
+                  temp_size =	EmptyPets.size();
+   					for(int i =	0;	i < temp_size;	i++){
+   						if(EmptyPets.get(i).getName().equals(temp_name)){
+   							System.out.println("Table "+output+" already exists.");//Will then reprompt for unique name
+   							table_found = true;
+                        break;//Stops needless execution	of	the loop
+   						}					 
+					   }
+                  //The filled tables are kept sorted by PARTY name, not TABLE name, so sequential search is necessary
+                  temp_size =	FullTables.size();
+   					for(int i =	0;	i < temp_size;	i++){
+   						if(FullTables.get(i).getName().equals(temp_name)){
+   							System.out.println("Table "+output+" already exists.");//Will then reprompt for unique name
+   							table_found = true;
+                        break;//Stops needless execution	of	the loop
+   						}					 
+					   }
+                  
+                  if(!table_found){//We know the name is unique and can go ahead and add it to the proper section
+                     System.out.println("Please give the seating capacity for this table: ");
+                     temp_size = Integer.parseInt(stdin.readLine().trim());
+                     System.out.println(temp_size);//echo input
+                     if(output.equals("P")){
+                     //TODO find correct spot to add into
+                     //TODO consider using reference variable to minimize branching
+                     }else{//Already validated input, so no need for second conditional check
+                        
+                     }
+                  }
+               }
+               break;
             case "5"://Remove a table.
                //Cannot remove a table that currently has a Party seated there
                //Report that the removal operation failed after only checking the two collections of available tables
@@ -160,6 +221,7 @@ class Driver{
                System.out.println("Invalid menu selection; please try again.");
                break;
          }
+         System.out.println();//flush buffer before next iteration
       }
       System.out.println("The restaurant is closing...");
    }
@@ -231,5 +293,11 @@ class Driver{
 		}
 		return tables;
 	}
+   
+   public void addTable(ListArrayBasedPlus<Table> empty_tables){
+      System.out.println();
+      String input = stdin.readLine().trim();
+      System.out.println(input);//echo input
+   }
    
 }
