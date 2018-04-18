@@ -31,6 +31,7 @@ class Driver{
       System.out.println(menu);
       int temp_size;//Prevents repeated method calls for every loop evaluation
       String output;//Collects relevant output and waits to perform file I/O once
+      boolean table_found;
       while(!input.equals("0")){
          System.out.println("Please make your menu selection now: ");
          input = stdin.readLine().trim();
@@ -39,52 +40,80 @@ class Driver{
             case "0"://0.  Close the restaurant.
                break;
             case "1"://Customer party enters the restaurant.
-           System.out.println("Welcome to XXX Restaurant!");
-				System.out.println("Can you give me a name for your party?");
-				String nameForParty = stdin.readLine();
-				System.out.println("The name is " + nameForParty);
-				boolean find  = binarySearchForName(FullTables, nameForParty);
-				int number = 0;
-				boolean hasPet = false;
-				while(find) {
-					System.out.println("Sorry, This name is used by the other party, please use another one");
-					nameForParty = stdin.readLine();
-					System.out.println("The name will be used: " + nameForParty);
-					find = binarySearchForName(FullTables, nameForParty);
-				}
-				if(!find) {
-					System.out.println("How many people are there in your party?");
-					String numberOfString = stdin.readLine();
-					number = Integer.parseInt(numberOfString);
-					System.out.println("Would you like to have dinner in pet section? Y/N");
-					String withPet = stdin.readLine();
-					if(withPet.equals("Y")) 
-						hasPet = true;	
-				}
-				Party newParty = new Party(nameForParty, number, hasPet);
-				//If there is an available table, be seated immediately, otherwise waiting in line.
-				if(EmptyNoPets.size() == 0 && EmptyPets.size() == 0) {
-					PartiesInLine.add(PartiesInLine.size()-1, newParty);
-				}
-				else {
-					//Checking there is a line or not and there is an available table or not.
-					if(hasPet && PartiesInLine.size() == 0) {
-						Table avilableTable = binarySearchForTable(EmptyPets, number);
-						if(avilableTable != null) {
-							//Add to FullTables(Sorted);
-
-						}
-					}
-
-				}
-				break;
+              System.out.println("Welcome to XXX Restaurant!");
+   				System.out.println("Can you give me a name for your party?");
+   				String nameForParty = stdin.readLine();
+   				System.out.println("The name is " + nameForParty);
+   				boolean find  = binarySearchForName(FullTables, nameForParty);
+   				int number = 0;
+   				boolean hasPet = false;
+   				while(find) {
+   					System.out.println("Sorry, This name is used by the other party, please use another one");
+   					nameForParty = stdin.readLine();
+   					System.out.println("The name will be used: " + nameForParty);
+   					find = binarySearchForName(FullTables, nameForParty);
+   				}
+   				if(!find) {
+   					System.out.println("How many people are there in your party?");
+   					String numberOfString = stdin.readLine();
+   					number = Integer.parseInt(numberOfString);
+   					System.out.println("Would you like to have dinner in pet section? Y/N");
+   					String withPet = stdin.readLine();
+   					if(withPet.equals("Y")) 
+   						hasPet = true;	
+   				}
+   				Party newParty = new Party(nameForParty, number, hasPet);
+   				//If there is an available table, be seated immediately, otherwise waiting in line.
+   				if(EmptyNoPets.size() == 0 && EmptyPets.size() == 0) {
+   					PartiesInLine.add(PartiesInLine.size()-1, newParty);
+   				}
+   				else {
+   					//Checking there is a line or not and there is an available table or not.
+   					if(hasPet && PartiesInLine.size() == 0) {
+   						Table avilableTable = binarySearchForTable(EmptyPets, number);
+   						if(avilableTable != null) {
+   							//Add to FullTables(Sorted);
+   
+   						}
+   					}
+   
+   				}
+   				break;
             case "2"://Customer party is seated and served.
             case "3"://Customer party leaves the restaurant.
+            
             case "4"://Add a table.
+            
             case "5"://Remove a table.
                //Cannot remove a table that currently has a Party seated there
                //Report that the removal operation failed after only checking the two collections of available tables
                //Both of these collections are kept sorted by capacity, not name, so we must sequentially search
+               System.out.println("Please enter the name of the table to remove: ");
+               output = stdin.readLine().trim();
+               System.out.println(output);//echo the inputted value
+               temp_size = EmptyNoPets.size();
+               for(int i = 0; i < temp_size; i++){
+                  if(EmptyNoPets.get(i).getName().equals(output)){
+                     EmptyNoPets.remove(i);
+                     table_found = true;
+                     System.out.println("Table "+output+" was removed.");
+                     break;//Stops needless execution of the loop- table already removed
+                  }
+               }
+               if(!table_found){
+                  temp_size = EmptyPets.size();
+                  for(int i = 0; i < temp_size; i++){
+                     if(EmptyPets.get(i).getName().equals(output)){
+                        EmptyPets.remove(i);
+                        table_found = true;
+                        System.out.println("Table "+output+" was removed.");
+                        break;//Stops needless execution of the loop- table already removed
+                     }
+                  }
+                  if(!table_found){
+                     System.out.println("No such available table was found.");
+                  }
+                }
                break;
             case "6"://Display available tables.
                System.out.println("Current available tables:");

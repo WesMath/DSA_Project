@@ -18,6 +18,11 @@ public class Table{
       return guests;
    }
    
+   public int getCapacity(){
+      return capacity;
+   }
+   
+   
    public Party removeParty(){
       //Party leaves the restaurant
       Party temp = guests;
