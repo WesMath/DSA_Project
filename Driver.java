@@ -82,8 +82,8 @@ class Driver{
 				else {
 					//Checking there is a line or not and there is an available table or not.
 					if(hasPet && PartiesInLine.isEmpty()) {
-						int numberForAvilable = binarySearchForTable(EmptyPets, number);
-						if(numberForAvilable != -1) {
+						int numberForAvilable = binarySearchCapacity(EmptyPets, number);
+						if(numberForAvilable != -1) {//TODO change this condition
 							//Add to FullTables(Sorted);
 							Table table = EmptyPets.get(numberForAvilable);
 							FullTables = insertTable(FullTables, table);
@@ -94,8 +94,8 @@ class Driver{
 						}
 					}
 					else if(!hasPet && PartiesInLine.isEmpty()) {
-						int numberForAvilable = binarySearchForTable(EmptyNoPets, number);
-						if(numberForAvilable != -1) {
+						int numberForAvilable = binarySearchCapacity(EmptyNoPets, number);
+						if(numberForAvilable != -1) {//TODO change condition
 							Table table = EmptyNoPets.get(numberForAvilable);
 							FullTables = insertTable(FullTables, table);
 							EmptyNoPets.remove(numberForAvilable);	
@@ -119,8 +119,8 @@ class Driver{
 						boolean petSection = party.getHasPet();
 						int numberOfPeople = party.getSize();
 						if(petSection) {
-							int index1 = binarySearchForTable(EmptyPets, numberOfPeople);
-							if(index1 != -1) {
+							int index1 = binarySearchCapacity(EmptyPets, numberOfPeople);
+							if(index1 != -1) {//TODO change condition
 								Table table = EmptyPets.get(index1);
 								FullTables = insertTable(FullTables, table);
 								EmptyPets.remove(index1);
@@ -138,8 +138,8 @@ class Driver{
 							}
 						}
 						else {
-							int index1 = binarySearchForTable(EmptyNoPets, numberOfPeople);
-							if(index1 != -1) {
+							int index1 = binarySearchCapacity(EmptyNoPets, numberOfPeople);
+							if(index1 != -1) {//TODO change condition
 								Table table = EmptyNoPets.get(index1);
 								FullTables = insertTable(FullTables, table);
 								EmptyNoPets.remove(index1);
@@ -174,8 +174,8 @@ class Driver{
 					System.out.print("Enter the name of the customer that wants to leave: ");
 					String name = stdin.readLine();
 					System.out.println(name);
-					int index = binarySearchForLeavingCustomer(FullTables, name);
-					if(index == -1) {
+					int index = binarySearchPartyName(FullTables, name);
+					if(index == -1) {//TODO change condition
 						boolean find1 = binarySearchForNameForParty(PartiesInLine, name);
 						if(find1) {
 							System.out.println("Customer " + name + "is not being served but waiting to be seated");
@@ -352,7 +352,7 @@ class Driver{
    }
    
    public static boolean seqSearchPartyName(ListArrayBasedPlus<Party> line, String searchKey){
-      int temp_size = section.size();
+      int temp_size = line.size();
       for(int i = 0; i < temp_size; i++){
          if(line.get(i).getName().equals(searchKey)){
             return true;
