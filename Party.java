@@ -7,9 +7,9 @@ public class Party{
   /**
    * Create a new object of Party.
    * @param n Set n to name field of Party. 
-	* @param s Set s to size field of Party.
-	* @param p Set p to hasPet field of Party.
-	*/
+   * @param s Set s to size field of Party.
+   * @param p Set p to hasPet field of Party.
+   */
    public Party(String n, int s, boolean p){
       name = n;
       size = s;
@@ -17,24 +17,24 @@ public class Party{
    }
    
   /**
-	* Return the name of Object.
-	* @return Return the name of Object.
-	*/
+   * Return the name of Object.
+   * @return Return the name of Object.
+   */
    public String getName(){
       return name;
    }
    
   /**
    * Return the size of Object.
-	* @return Return the size of Object.
-	*/
+   * @return Return the size of Object.
+   */
    public int getSize(){
       return size;
    }
    
   /**
-	* Return the hasPet of Object.
-	* @return Return the hasPet of Object.
+   * Return the hasPet of Object.
+   * @return Return the hasPet of Object.
    */
    public boolean getHasPet(){
       return hasPet;
@@ -42,7 +42,7 @@ public class Party{
    
   /**
    * Display all the information of Party.
-	*/   
+   */   
    public String toString(){
       return "Name: "+name+"\nSize: "+size+"\nHas pets: "+hasPet;
    }
