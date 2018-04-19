@@ -481,7 +481,7 @@ class Driver{
 				low = mid +1;
 			}
 		}
-      if(searchKey.compareTo(fullTable.get(mid).getName()) == 0){
+      if(searchKey.compareTo(fullTable.get(mid).getName()) <= 0){
 		   return mid;//Calling method can decide whether to check for equality or use this position to insert
       }else{
          return mid+1;
