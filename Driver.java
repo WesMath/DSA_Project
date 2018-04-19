@@ -346,11 +346,12 @@ class Driver{
                   //Section information is maintained by which collection the Table is in, not as a data field, so we manually append
                   temp_size = EmptyNoPets.size();
                   for(int i = 0; i < temp_size; i++){
-                     output += EmptyNoPets.get(i).toString() + "\nSection: No Pets\n";
+                     output += EmptyNoPets.get(i).toString() + "\nSection: No Pets\n\n";
                   }
+                  System.out.println();
                   temp_size = EmptyPets.size();
                   for(int i = 0; i < temp_size; i++){
-                     output += EmptyPets.get(i).toString() + "\nSection: Pets\n";
+                     output += EmptyPets.get(i).toString() + "\nSection: Pets\n\n";
                   }
                   System.out.println(output);
                }
@@ -460,7 +461,6 @@ class Driver{
    //This method is designed for Option Three, return a integer, if it is -1, it means not searchKey in the collection, 
    //otherwise it will return position of searchKey.
    public static int binarySearchPartyName(ListArrayBasedPlus<Table> fullTable, String searchKey) {
-   //TODO this method looks at Table names, rather than Party
 		int sizeOfFullTable = fullTable.size();
 		int low = 0;
 		int high = sizeOfFullTable -1;
