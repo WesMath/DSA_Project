@@ -48,11 +48,15 @@ class Driver{
          switch(input){
             case "0"://0.  Close the restaurant.
                break;
-            case "1"://Customer party enters the restaurant.
+             case "1"://Customer party enters the restaurant.
              System.out.print("Enter customer name : ");
 				String nameForParty = stdin.readLine();
 				System.out.println(nameForParty);
-				boolean find  = binarySearchForName(FullTables, nameForParty);
+				int index2  = binarySearchPartyName(FullTables, nameForParty);
+				boolean find = false;
+				if(FullTables.get(index2).getName().compareTo(nameForParty) == 0) {
+					find = true; 
+				}
 				int number = 0;
 				boolean hasPet = false;
 				while(find) {
@@ -61,7 +65,10 @@ class Driver{
 					System.out.print("Enter customer name: ");
 					nameForParty = stdin.readLine();
 					System.out.println(nameForParty);
-					find = binarySearchForName(FullTables, nameForParty);
+					index2 = binarySearchPartyName(FullTables, nameForParty);
+					if(FullTables.get(index2).getName().compareTo(nameForParty) == 0) {
+						find = true; 
+					}
 				}
 				if(!find) {
 					System.out.print("Enter number of seats for customer " + nameForParty + ": ");
@@ -176,8 +183,25 @@ class Driver{
 					System.out.println(name);
 					int index = binarySearchPartyName(FullTables, name);
 					if(index == -1) {//TODO change condition
-						boolean find1 = binarySearchForNameForParty(PartiesInLine, name);
-						if(find1) {
+						boolean find11 = false;
+						int sizeOfFullTable = PartiesInLine.size();
+						int low = 0;
+						int high = sizeOfFullTable -1;
+						int mid = 0;
+						while(low < high) {
+							mid = (low + high)/2;
+							if(name.compareTo(PartiesInLine.get(mid).getName()) < 0 || name.compareTo(PartiesInLine.get(mid).getName()) == 0) {
+								high = mid;
+							}
+							else {
+								low = mid +1;
+							}
+						}
+						if(name.compareTo(PartiesInLine.get(mid).getName()) == 0) {
+							find11 = true;
+						}
+						
+						if(find11) {
 							System.out.println("Customer " + name + "is not being served but waiting to be seated");
 						}
 						else {
@@ -205,7 +229,6 @@ class Driver{
 					}
 				}
 				break;
-            
             case "4"://Add a table.
                System.out.println("To which section would you like to add this table?(P/N)");
 					output = stdin.readLine().trim();
@@ -361,56 +384,7 @@ class Driver{
       return false;
    }
   
-    //This method works for Option One, use a particular name to check whether it is in collection or not.
-   public static boolean binarySearchForName(ListArrayBasedPlus<Table> fullTable, String searchKey) {
-		boolean find = false;
-		int sizeOfFullTable = fullTable.size();
-		int low = 0;
-		int high = sizeOfFullTable -1;
-		int mid = 0;
-		while(low < high) {
-			mid = (low + high)/2;
-			if(searchKey.compareTo(fullTable.get(mid).getName()) < 0 || searchKey.compareTo(fullTable.get(mid).getName()) == 0) {
-				high = mid;
-			}
-			else {
-				low = mid +1;
-			}
-		}
-		if(searchKey.compareTo(fullTable.get(mid).getName()) == 0) {
-			find = true;
-		}
-		else {
-			find = false;
-		}
-		return find;
-	}
-   //This method is just for PartiesInLine collection, to check there is a party with name of searchKey or not. 
-   //It works for Option Three, if the name given is not in FullTables, we have to check this name in PartiesInLine or not.
-   public static boolean binarySearchForNameForParty(ListArrayBasedPlus<Party> party, String searchKey) {
-		boolean find = false;
-		int sizeOfFullTable = party.size();
-		int low = 0;
-		int high = sizeOfFullTable -1;
-		int mid = 0;
-		while(low < high) {
-			mid = (low + high)/2;
-			if(searchKey.compareTo(party.get(mid).getName()) < 0 || searchKey.compareTo(party.get(mid).getName()) == 0) {
-				high = mid;
-			}
-			else {
-				low = mid +1;
-			}
-		}
-		if(searchKey.compareTo(party.get(mid).getName()) == 0) {
-			find = true;
-		}
-		else {
-			find = false;
-		}
-		return find;
-   }
-   //Given a number, use that number to search whether there is a table in collection is exist.
+    //Given a number, use that number to search whether there is a table in collection is exist.
    public static int binarySearchCapacity(ListArrayBasedPlus<Table> tables, int number) {
 		int size = tables.size();
 		int low = 0;
@@ -470,6 +444,5 @@ class Driver{
 		}
 		return mid;//Calling method can decide whether to check for equality or use this position to insert
   }
-   
    
 }
