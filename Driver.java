@@ -354,7 +354,7 @@ class Driver{
    public static boolean seqSearchPartyName(ListArrayBasedPlus<Party> line, String searchKey){
       int temp_size = section.size();
       for(int i = 0; i < temp_size; i++){
-         if(section.get(i).getName().equals(searchKey)){
+         if(line.get(i).getName().equals(searchKey)){
             return true;
          }
       }
