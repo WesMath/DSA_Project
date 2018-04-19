@@ -267,6 +267,7 @@ class Driver{
                output = stdin.readLine().trim();
                System.out.println(output);//echo the inputted value
                temp_size = EmptyNoPets.size();
+               table_found = false;
                for(int i = 0; i < temp_size; i++){
                   if(EmptyNoPets.get(i).getName().equals(output)){
                      EmptyNoPets.remove(i);
@@ -458,10 +459,6 @@ class Driver{
 			return -1;
 		}
   }
-   public void addTable(ListArrayBasedPlus<Table> empty_tables){
-      System.out.println();
-      String input = stdin.readLine().trim();
-      System.out.println(input);//echo input
-   }
+   
    
 }
