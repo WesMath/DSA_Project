@@ -105,6 +105,7 @@ class Driver{
 				}
 				int number = 0;
 				boolean hasPet = false;
+            find = seqSearchPartyName(PartiesInLine, nameForParty) || find;
 				while(find) {
 					System.out.println("There already exists a customer with this name in the restaurant.");
 					System.out.println("			Please select another name.");
@@ -115,6 +116,7 @@ class Driver{
 					if(FullTables.get(index2).getName().compareTo(nameForParty) == 0) {
 						find = true; 
 					}
+               find = seqSearchPartyName(PartiesInLine, nameForParty) || find;
 				}
 				if(!find) {
 					System.out.print("Enter number of seats for customer " + nameForParty + ": ");
@@ -139,7 +141,7 @@ class Driver{
 						if(EmptyPets.get(numberForAvilable).getCapacity() >= number) {
 							//Add to FullTables(Sorted);
 							Table table = EmptyPets.get(numberForAvilable);
-							FullTables = insertTable(FullTables, table);
+						   FullTables.add(binarySearchPartyName(FullTables, party.getName()), table);
 							EmptyPets.remove(numberForAvilable);	
 						}
 						else {
@@ -150,7 +152,7 @@ class Driver{
 						int numberForAvilable = binarySearchCapacity(EmptyNoPets, number);
 						if(EmptyPets.get(numberForAvilable).getCapacity() >= number) {
 							Table table = EmptyNoPets.get(numberForAvilable);
-							FullTables = insertTable(FullTables, table);
+						   FullTables.add(binarySearchPartyName(FullTables, party.getName()), table);
 							EmptyNoPets.remove(numberForAvilable);	
 						}
 						else {
@@ -175,7 +177,7 @@ class Driver{
 							int index1 = binarySearchCapacity(EmptyPets, numberOfPeople);
 							if(EmptyPets.get(index1).getCapacity() >= numberOfPeople) {
 								Table table = EmptyPets.get(index1);
-								FullTables = insertTable(FullTables, table);
+								FullTables.add(binarySearchPartyName(FullTables, party.getName()), table);
 								EmptyPets.remove(index1);
 								served = true;
 								System.out.println("Serving Customer " + 
@@ -194,7 +196,7 @@ class Driver{
 							int index1 = binarySearchCapacity(EmptyNoPets, numberOfPeople);
 							if(EmptyNoPets.get(index1).getCapacity() >= numberOfPeople) {
 								Table table = EmptyNoPets.get(index1);
-								FullTables = insertTable(FullTables, table);
+								FullTables.add(binarySearchPartyName(FullTables, party.getName()), table);
 								EmptyNoPets.remove(index1);
 								served = true;
 								System.out.println("Serving Customer " + 
