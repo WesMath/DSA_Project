@@ -12,6 +12,7 @@ class Driver{
       int temp_size, amount;//Prevents repeated method calls for every loop evaluation
       String output;//Collects relevant output and waits to perform file I/O once
       boolean table_found;
+      Table temp_table;
       String temp_name;
       /*
       FullTables, EmptyNoPets, EmptyPets, PartiesInLine
@@ -19,6 +20,7 @@ class Driver{
       ListArrayBasedPlus<Table> FullTables = new ListArrayBasedPlus<Table>();//will remain empty until restaurant opens
       ListArrayBasedPlus<Table> EmptyNoPets = new ListArrayBasedPlus<Table>();
       ListArrayBasedPlus<Table> EmptyPets = new ListArrayBasedPlus<Table>();
+      ListArrayBasedPlus<Table> lref;//Reference variable to improve code readability, at the small cost of 4 bytes
       ListArrayBasedPlus<Party> PartiesInLine = new ListArrayBasedPlus<Party>();//will remain empty until restaurant opens
       System.out.println("How many tables does your pet-friendly section have?");
       amount = Integer.parseInt(stdin.readLine().trim());
@@ -282,42 +284,23 @@ class Driver{
    					System.out.println("Please provide a unique name for this table: ");
    					temp_name =	stdin.readLine().trim();
    					System.out.println(temp_name);//echo input
-   					temp_size =	EmptyNoPets.size();
-   					for(int i =	0;	i < temp_size;	i++){
-   						if(EmptyNoPets.get(i).getName().equals(temp_name)){
-   							System.out.println("Table "+output+" already exists.");//Will then reprompt for unique name
-   							table_found = true;
-                        break;//Stops needless execution	of	the loop
-   						}					 
-					   }
-                  temp_size =	EmptyPets.size();
-   					for(int i =	0;	i < temp_size;	i++){
-   						if(EmptyPets.get(i).getName().equals(temp_name)){
-   							System.out.println("Table "+output+" already exists.");//Will then reprompt for unique name
-   							table_found = true;
-                        break;//Stops needless execution	of	the loop
-   						}					 
-					   }
+   					
                   //The filled tables are kept sorted by PARTY name, not TABLE name, so sequential search is necessary
-                  temp_size =	FullTables.size();
-   					for(int i =	0;	i < temp_size;	i++){
-   						if(FullTables.get(i).getName().equals(temp_name)){
-   							System.out.println("Table "+output+" already exists.");//Will then reprompt for unique name
-   							table_found = true;
-                        break;//Stops needless execution	of	the loop
-   						}					 
-					   }
+                  table_found = seqSearchTableName(EmptyPets, temp_name) || seqSearchTableName(EmptyNoPets, temp_name)|| seqSearchTableName(FullTables, temp_name);
                   
                   if(!table_found){//We know the name is unique and can go ahead and add it to the proper section
                      System.out.println("Please give the seating capacity for this table: ");
                      temp_size = Integer.parseInt(stdin.readLine().trim());
                      System.out.println(temp_size);//echo input
                      if(output.equals("P")){
-                     //TODO find correct spot to add into
-                     //TODO consider using reference variable to minimize branching
+                        lref = EmptyPets;
                      }else{//Already validated input, so no need for second conditional check
-                        
+                        lref = EmptyNoPets;
                      }
+                     //insert new table into the correct spot, maintaining order of capacity
+                     temp_table = new Table(temp_name, temp_size);
+                     lref.add((binarySearchCapacity(lref, temp_size)), temp_table);
+                     System.out.println("Table successfully added.");
                   }
                }
                break;
