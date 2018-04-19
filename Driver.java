@@ -474,7 +474,7 @@ class Driver{
 		int mid = 0;
 		while(low < high) {
 			mid = (low + high)/2;
-			if(searchKey.compareTo(fullTable.get(mid).getName()) < 0 || searchKey.compareTo(fullTable.get(mid).getName()) == 0) {
+			if(searchKey.compareTo(fullTable.get(mid).getParty().getName()) <= 0) {
 				high = mid;
 			}
 			else {
