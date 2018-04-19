@@ -100,7 +100,7 @@ class Driver{
 				System.out.println(nameForParty);
 				int index2  = binarySearchPartyName(FullTables, nameForParty);
 				boolean find = false;
-				if(FullTables.get(index2).getName().compareTo(nameForParty) == 0) {
+				if((index2 < FullTables.size()) && FullTables.get(index2).getName().compareTo(nameForParty) == 0) {
 					find = true; 
 				}
 				int number = 0;
@@ -113,7 +113,7 @@ class Driver{
 					nameForParty = stdin.readLine();
 					System.out.println(nameForParty);
 					index2 = binarySearchPartyName(FullTables, nameForParty);
-					if(FullTables.get(index2).getName().compareTo(nameForParty) == 0) {
+					if((index2 < FullTables.size()) && FullTables.get(index2).getName().compareTo(nameForParty) == 0) {
 						find = true; 
 					}
                find = seqSearchPartyName(PartiesInLine, nameForParty) || find;
@@ -136,27 +136,27 @@ class Driver{
 					//Checking there is a line or not and there is an available table or not.
 					if(hasPet && PartiesInLine.isEmpty()) {
 						int numberForAvilable = binarySearchCapacity(EmptyPets, number);
-						if(EmptyPets.get(numberForAvilable).getCapacity() >= number) {
+						if((numberForAvilable < EmptyPets.size()) && EmptyPets.get(numberForAvilable).getCapacity() >= number) {
 							//Add to FullTables(Sorted);
 							Table table = EmptyPets.get(numberForAvilable);
 							table.seat(newParty);
-						   FullTables.add(binarySearchPartyName(FullTables, party.getName()), table);
+						   FullTables.add(binarySearchPartyName(FullTables, newParty.getName()), table);
 							EmptyPets.remove(numberForAvilable);	
 						}
 						else {
-							PartiesInLine.add(PartiesInLine.size()-1, newParty);
+							PartiesInLine.add(0, newParty);
 						}
 					}
 					else if(!hasPet && PartiesInLine.isEmpty()) {
 						int numberForAvilable = binarySearchCapacity(EmptyNoPets, number);
-						if(EmptyPets.get(numberForAvilable).getCapacity() >= number) {
+						if((numberForAvilable < EmptyNoPets.size()) && EmptyNoPets.get(numberForAvilable).getCapacity() >= number) {
 							Table table = EmptyNoPets.get(numberForAvilable);
 							table.seat(newParty);
-						   FullTables.add(binarySearchPartyName(FullTables, party.getName()), table);
+						   FullTables.add(binarySearchPartyName(FullTables, newParty.getName()), table);
 							EmptyNoPets.remove(numberForAvilable);	
 						}
 						else {
-							PartiesInLine.add(PartiesInLine.size()-1, newParty);
+							PartiesInLine.add(0, newParty);
 						}
 					}
 					else {
