@@ -102,7 +102,9 @@ class Driver{
 				boolean find = false;
 				if((index2 < FullTables.size()) && FullTables.get(index2).getName().compareTo(nameForParty) == 0) {
 					find = true; 
-				}
+				}else if((index2 < FullTables.size()) && FullTables.get(index2).getName().compareTo(nameForParty) < 0) {
+               index2++;
+            }
             System.out.println("index2 is " +index2);
 				int number = 0;
 				boolean hasPet = false;
@@ -141,7 +143,7 @@ class Driver{
 							//Add to FullTables(Sorted);
 							Table table = EmptyPets.get(numberForAvilable);
 							table.seat(newParty);
-						   FullTables.add(binarySearchPartyName(FullTables, newParty.getName()), table);
+						   FullTables.add(index2, table);
 							EmptyPets.remove(numberForAvilable);	
 						}
 						else {
@@ -153,7 +155,7 @@ class Driver{
 						if((numberForAvilable < EmptyNoPets.size()) && EmptyNoPets.get(numberForAvilable).getCapacity() >= number) {
 							Table table = EmptyNoPets.get(numberForAvilable);
 							table.seat(newParty);
-						   FullTables.add(binarySearchPartyName(FullTables, newParty.getName()), table);
+						   FullTables.add(index2, table);
 							EmptyNoPets.remove(numberForAvilable);	
 						}
 						else {
@@ -473,6 +475,7 @@ class Driver{
 		int high = sizeOfFullTable -1;
 		int mid = 0;
 		while(low < high) {
+         System.out.println(low + " " + high + " " + searchKey + " " +fullTable.get(mid).getParty().getName());
 			mid = (low + high)/2;
 			if(searchKey.compareTo(fullTable.get(mid).getParty().getName()) <= 0) {
 				high = mid;
@@ -481,7 +484,8 @@ class Driver{
 				low = mid +1;
 			}
 		}
-      if(searchKey.compareTo(fullTable.get(mid).getName()) <= 0){
+      System.out.println("mid comparison: "+fullTable.get(mid).getParty().getName()+searchKey +searchKey.compareTo(fullTable.get(mid).getParty().getName()));
+      if(searchKey.compareTo(fullTable.get(mid).getParty().getName()) <= 0){
 		   return mid;//Calling method can decide whether to check for equality or use this position to insert
       }else{
          return mid+1;
