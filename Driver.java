@@ -299,6 +299,7 @@ class Driver{
                      }
                      //insert new table into the correct spot, maintaining order of capacity
                      temp_table = new Table(temp_name, temp_size);
+                     System.out.println("DEBUG: " +binarySearchCapacity(lref, temp_size));
                      lref.add((binarySearchCapacity(lref, temp_size)), temp_table);
                      System.out.println("Table successfully added.");
                   }
@@ -409,19 +410,28 @@ class Driver{
     //Given a number, use that number to search whether there is a table in collection is exist.
    public static int binarySearchCapacity(ListArrayBasedPlus<Table> tables, int number) {
 		int size = tables.size();
+      if(size == 0){
+         return 0;
+      }
 		int low = 0;
 		int high = size-1;
 		int mid = 0;
 		while(low < high) {
 			mid = (low + high)/2;
+         System.out.println("Inner debug: "+mid+" "+number+" "+tables.get(mid).getCapacity());
 			if(number <= tables.get(mid).getCapacity()) {
+         
 				high = mid;
 			}
 			else {
 				low = mid+1;
 			}
 		}
-		return mid;//Let calling method determine what to do with this information
+	   if(number <= tables.get(mid).getCapacity()){
+		   return mid;//Calling method can decide whether to check for equality or use this position to insert
+      }else{
+         return mid+1;
+      }
    }
    //Insert a table in sorted collections, using binary search to find particular position.
    public static ListArrayBasedPlus<Table> insertTable(ListArrayBasedPlus<Table> tables, Table table){
@@ -464,7 +474,7 @@ class Driver{
 				low = mid +1;
 			}
 		}
-		return mid;//Calling method can decide whether to check for equality or use this position to insert
+      return mid;
   }
    
    
