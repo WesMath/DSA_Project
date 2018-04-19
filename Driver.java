@@ -36,7 +36,7 @@ class Driver{
       String menu = "0.  Close the restaurant.\n1.   Customer party enters the restaurant.\n"+
       "2.   Customer party is seated and served.\n3.   Customer party leaves the restaurant.\n"+
       "4.   Add a table.\n5.   Remove a table.\n6.   Display available tables.\n"+
-      "7.   Display info about waiting customer parties.\n8.   Display info about customer parties being served.";
+      "7.   Display info about waiting customer parties.\n8.   Display info about customer parties being served.\n";
       
       
       System.out.println(menu);
@@ -82,8 +82,8 @@ class Driver{
 				else {
 					//Checking there is a line or not and there is an available table or not.
 					if(hasPet && PartiesInLine.isEmpty()) {
-						int numberForAvilable = binarySearchForTable(EmptyPets, number);
-						if(numberForAvilable != -1) {
+						int numberForAvilable = binarySearchCapacity(EmptyPets, number);
+						if(numberForAvilable != -1) {//TODO change this condition
 							//Add to FullTables(Sorted);
 							Table table = EmptyPets.get(numberForAvilable);
 							FullTables = insertTable(FullTables, table);
@@ -94,8 +94,8 @@ class Driver{
 						}
 					}
 					else if(!hasPet && PartiesInLine.isEmpty()) {
-						int numberForAvilable = binarySearchForTable(EmptyNoPets, number);
-						if(numberForAvilable != -1) {
+						int numberForAvilable = binarySearchCapacity(EmptyNoPets, number);
+						if(numberForAvilable != -1) {//TODO change condition
 							Table table = EmptyNoPets.get(numberForAvilable);
 							FullTables = insertTable(FullTables, table);
 							EmptyNoPets.remove(numberForAvilable);	
@@ -119,8 +119,8 @@ class Driver{
 						boolean petSection = party.getHasPet();
 						int numberOfPeople = party.getSize();
 						if(petSection) {
-							int index1 = binarySearchForTable(EmptyPets, numberOfPeople);
-							if(index1 != -1) {
+							int index1 = binarySearchCapacity(EmptyPets, numberOfPeople);
+							if(index1 != -1) {//TODO change condition
 								Table table = EmptyPets.get(index1);
 								FullTables = insertTable(FullTables, table);
 								EmptyPets.remove(index1);
@@ -138,8 +138,8 @@ class Driver{
 							}
 						}
 						else {
-							int index1 = binarySearchForTable(EmptyNoPets, numberOfPeople);
-							if(index1 != -1) {
+							int index1 = binarySearchCapacity(EmptyNoPets, numberOfPeople);
+							if(index1 != -1) {//TODO change condition
 								Table table = EmptyNoPets.get(index1);
 								FullTables = insertTable(FullTables, table);
 								EmptyNoPets.remove(index1);
@@ -174,8 +174,8 @@ class Driver{
 					System.out.print("Enter the name of the customer that wants to leave: ");
 					String name = stdin.readLine();
 					System.out.println(name);
-					int index = binarySearchForLeavingCustomer(FullTables, name);
-					if(index == -1) {
+					int index = binarySearchPartyName(FullTables, name);
+					if(index == -1) {//TODO change condition
 						boolean find1 = binarySearchForNameForParty(PartiesInLine, name);
 						if(find1) {
 							System.out.println("Customer " + name + "is not being served but waiting to be seated");
@@ -340,6 +340,26 @@ class Driver{
       }
       System.out.println("The restaurant is closing...");
    }
+   
+   public static boolean seqSearchTableName(ListArrayBasedPlus<Table> section, String searchKey){
+      int temp_size = section.size();
+      for(int i = 0; i < temp_size; i++){
+         if(section.get(i).getName().equals(searchKey)){
+            return true;
+         }
+      }
+      return false;
+   }
+   
+   public static boolean seqSearchPartyName(ListArrayBasedPlus<Party> line, String searchKey){
+      int temp_size = line.size();
+      for(int i = 0; i < temp_size; i++){
+         if(line.get(i).getName().equals(searchKey)){
+            return true;
+         }
+      }
+      return false;
+   }
   
     //This method works for Option One, use a particular name to check whether it is in collection or not.
    public static boolean binarySearchForName(ListArrayBasedPlus<Table> fullTable, String searchKey) {
@@ -391,7 +411,7 @@ class Driver{
 		return find;
    }
    //Given a number, use that number to search whether there is a table in collection is exist.
-   public static int binarySearchForTable(ListArrayBasedPlus<Table> tables, int number) {
+   public static int binarySearchCapacity(ListArrayBasedPlus<Table> tables, int number) {
 		int size = tables.size();
 		int low = 0;
 		int high = size-1;
@@ -405,12 +425,7 @@ class Driver{
 				low = mid+1;
 			}
 		}
-		if(number <= tables.get(mid).getCapacity()) {
-			return mid;
-		}
-		else {
-			return -1;
-		}
+		return mid;//Let calling method determine what to do with this information
    }
    //Insert a table in sorted collections, using binary search to find particular position.
    public static ListArrayBasedPlus<Table> insertTable(ListArrayBasedPlus<Table> tables, Table table){
@@ -438,7 +453,8 @@ class Driver{
 	
    //This method is designed for Option Three, return a integer, if it is -1, it means not searchKey in the collection, 
    //otherwise it will return position of searchKey.
-   public static int binarySearchForLeavingCustomer(ListArrayBasedPlus<Table> fullTable, String searchKey) {
+   public static int binarySearchPartyName(ListArrayBasedPlus<Table> fullTable, String searchKey) {
+   //TODO this method looks at Table names, rather than Party
 		int sizeOfFullTable = fullTable.size();
 		int low = 0;
 		int high = sizeOfFullTable -1;
@@ -452,12 +468,7 @@ class Driver{
 				low = mid +1;
 			}
 		}
-		if(searchKey.compareTo(fullTable.get(mid).getName()) == 0) {
-			return mid;
-		}
-		else {
-			return -1;
-		}
+		return mid;//Calling method can decide whether to check for equality or use this position to insert
   }
    
    
