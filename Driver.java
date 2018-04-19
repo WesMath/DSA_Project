@@ -24,13 +24,51 @@ class Driver{
       amount = Integer.parseInt(stdin.readLine().trim());
       System.out.println(amount);//echo input
       for(int i = 0; i < amount; i++){//No tables have been placed in the No-pets section yet, so only check this section for uniqueness
-      
+         table_found = true;
+         while(table_found){
+            System.out.println("Please give the name for Table #"+i+": ");
+            input = stdin.readLine().trim();
+            System.out.println(input);//echoed input
+            table_found = seqSearchTableName(EmptyPets, input);
+            if(table_found){
+               System.out.println("That table already exists; please try again.");
+            }else{
+               System.out.println("Please indicate the seating capacity for this table: ");
+               temp_size = Integer.parseInt(stdin.readLine().trim());
+               System.out.println(temp_size);//Echo input
+               if(temp_size <= 0){
+                  System.out.println("Invalid table size.");
+               }else{
+                  EmptyPets.add(EmptyPets.size(), new Table(input, temp_size));
+                  System.out.println("Table successfully added.");
+               }
+            }
+         }
       }
       System.out.println("How many tables does your no-pets section have?");
       amount = Integer.parseInt(stdin.readLine().trim());
       System.out.println(amount);//echo input
       for(int i = 0; i < amount; i++){//check tables in both this section and the pet section for uniqueness
-      
+         table_found = true;
+         while(table_found){
+            System.out.println("Please give the name for Table #"+i+": ");
+            input = stdin.readLine().trim();
+            System.out.println(input);//echoed input
+            table_found = seqSearchTableName(EmptyPets, input) || seqSearchTableName(EmptyNoPets, input);
+            if(table_found){
+               System.out.println("That table already exists; please try again.");
+            }else{
+               System.out.println("Please indicate the seating capacity for this table: ");
+               temp_size = Integer.parseInt(stdin.readLine().trim());
+               System.out.println(temp_size);//Echo input
+               if(temp_size <= 0){
+                  System.out.println("Invalid table size.");
+               }else{
+                  EmptyPets.add(EmptyNoPets.size(), new Table(input, temp_size));
+                  System.out.println("Table successfully added.");
+               }
+            }
+         }
       }
       
       String menu = "0.  Close the restaurant.\n1.   Customer party enters the restaurant.\n"+
