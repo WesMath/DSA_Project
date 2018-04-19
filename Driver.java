@@ -316,7 +316,8 @@ class Driver{
                temp_size = EmptyNoPets.size();
                table_found = false;
                for(int i = 0; i < temp_size; i++){
-                  if(EmptyNoPets.get(i).getName().equals(output)){
+                  temp_table = EmptyNoPets.get(i);
+                  if(temp_table.getName().equals(output)){
                      EmptyNoPets.remove(i);
                      table_found = true;
                      System.out.println("Table "+output+" was removed.");
@@ -326,7 +327,8 @@ class Driver{
                if(!table_found){
                   temp_size = EmptyPets.size();
                   for(int i = 0; i < temp_size; i++){
-                     if(EmptyPets.get(i).getName().equals(output)){
+                     temp_table = EmptyNoPets.get(i);
+                     if(temp_table.getName().equals(output)){
                         EmptyPets.remove(i);
                         table_found = true;
                         System.out.println("Table "+output+" was removed.");
