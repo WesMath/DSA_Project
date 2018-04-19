@@ -118,7 +118,6 @@ class Driver{
 					}
                find = seqSearchPartyName(PartiesInLine, nameForParty) || find;
 				}
-				if(!find) {
 					System.out.print("Enter number of seats for customer " + nameForParty + ": ");
 					String numberOfString = stdin.readLine();
 					number = Integer.parseInt(numberOfString);
@@ -126,9 +125,8 @@ class Driver{
 					System.out.print("Does your part have pets (Y/N)?");
 					String withPet = stdin.readLine();
 					System.out.println(withPet);
-					if(withPet.equals("Y")) 
-						hasPet = true;	
-				}
+					if(withPet.equals("Y")) {
+						hasPet = true;}
 				Party newParty = new Party(nameForParty, number, hasPet);
 				//If there is an available table, be seated immediately, otherwise waiting in line.
 				if(EmptyNoPets.isEmpty() && EmptyPets.size() == 0) {
