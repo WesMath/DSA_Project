@@ -96,7 +96,7 @@ class Driver{
                break;
             case "1"://Customer party enters the restaurant.
              System.out.print("Enter customer name : ");
-				String nameForParty = stdin.readLine();
+				String nameForParty = stdin.readLine().trim();
 				System.out.println(nameForParty);
 				int index2  = binarySearchPartyName(FullTables, nameForParty);
 				boolean find = false;
@@ -136,7 +136,7 @@ class Driver{
 					//Checking there is a line or not and there is an available table or not.
 					if(hasPet && PartiesInLine.isEmpty()) {
 						int numberForAvilable = binarySearchCapacity(EmptyPets, number);
-						if(numberForAvilable != -1) {//TODO change this condition
+						if(EmptyPets.get(numberForAvilable).getCapacity() >= number) {
 							//Add to FullTables(Sorted);
 							Table table = EmptyPets.get(numberForAvilable);
 							FullTables = insertTable(FullTables, table);
