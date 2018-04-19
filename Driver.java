@@ -100,23 +100,22 @@ class Driver{
 				System.out.println(nameForParty);
 				int index2  = binarySearchPartyName(FullTables, nameForParty);
 				boolean find = false;
-				if((index2 < FullTables.size()) && FullTables.get(index2).getName().compareTo(nameForParty) == 0) {
+				if((index2 < FullTables.size()) && FullTables.get(index2).getParty().getName().compareTo(nameForParty) == 0) {
 					find = true; 
-				}else if((index2 < FullTables.size()) && FullTables.get(index2).getName().compareTo(nameForParty) < 0) {
-               index2++;
-            }
+				}
             System.out.println("index2 is " +index2);
 				int number = 0;
 				boolean hasPet = false;
             find = seqSearchPartyName(PartiesInLine, nameForParty) || find;
 				while(find) {
+               find = false;
 					System.out.println("There already exists a customer with this name in the restaurant.");
 					System.out.println("			Please select another name.");
 					System.out.print("Enter customer name: ");
-					nameForParty = stdin.readLine();
+					nameForParty = stdin.readLine().trim();
 					System.out.println(nameForParty);
 					index2 = binarySearchPartyName(FullTables, nameForParty);
-					if((index2 < FullTables.size()) && FullTables.get(index2).getName().compareTo(nameForParty) == 0) {
+					if((index2 < FullTables.size()) && FullTables.get(index2).getParty().getName().compareTo(nameForParty) == 0) {
 						find = true; 
 					}
                find = seqSearchPartyName(PartiesInLine, nameForParty) || find;
@@ -314,7 +313,7 @@ class Driver{
                if(!table_found){
                   temp_size = EmptyPets.size();
                   for(int i = 0; i < temp_size; i++){
-                     temp_table = EmptyNoPets.get(i);
+                     temp_table = EmptyPets.get(i);
                      if(temp_table.getName().equals(output)){
                         EmptyPets.remove(i);
                         table_found = true;
@@ -475,7 +474,6 @@ class Driver{
 		int high = sizeOfFullTable -1;
 		int mid = 0;
 		while(low < high) {
-         System.out.println(low + " " + high + " " + searchKey + " " +fullTable.get(mid).getParty().getName());
 			mid = (low + high)/2;
 			if(searchKey.compareTo(fullTable.get(mid).getParty().getName()) <= 0) {
 				high = mid;
@@ -483,9 +481,10 @@ class Driver{
 			else {
 				low = mid +1;
 			}
+         System.out.println(low + " " + high + " " + searchKey + " " +fullTable.get(mid).getParty().getName());
 		}
       System.out.println("mid comparison: "+fullTable.get(mid).getParty().getName()+searchKey +searchKey.compareTo(fullTable.get(mid).getParty().getName()));
-      if(searchKey.compareTo(fullTable.get(mid).getParty().getName()) <= 0){
+      if(searchKey.compareTo(fullTable.get(mid).getParty().getName()) == 0){
 		   return mid;//Calling method can decide whether to check for equality or use this position to insert
       }else{
          return mid+1;
