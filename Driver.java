@@ -119,11 +119,11 @@ class Driver{
                find = seqSearchPartyName(PartiesInLine, nameForParty) || find;
 				}
 					System.out.print("Enter number of seats for customer " + nameForParty + ": ");
-					String numberOfString = stdin.readLine();
+					String numberOfString = stdin.readLine().trim();
 					number = Integer.parseInt(numberOfString);
 					System.out.println(number);
 					System.out.print("Does your part have pets (Y/N)?");
-					String withPet = stdin.readLine();
+					String withPet = stdin.readLine().trim();
 					System.out.println(withPet);
 					if(withPet.equals("Y")) {
 						hasPet = true;}
@@ -229,7 +229,7 @@ class Driver{
    				}
    				else {
 					System.out.print("Enter the name of the party that wants to leave: ");
-					String name = stdin.readLine();
+					String name = stdin.readLine().trim();
 					System.out.println(name);
 					int index = binarySearchPartyName(FullTables, name);
 					if(FullTables.get(index).getParty().getName().equals(name)) {
