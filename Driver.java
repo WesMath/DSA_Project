@@ -41,7 +41,8 @@ class Driver{
                if(temp_size <= 0){
                   System.out.println("Invalid table size.");
                }else{
-                  EmptyPets.add(EmptyPets.size(), new Table(input, temp_size));
+                  temp_table = new Table(input, temp_size);
+                  EmptyPets.add(binarySearchCapacity(EmptyPets, temp_size), temp_table);
                   System.out.println("Table successfully added.");
                }
             }
@@ -66,7 +67,8 @@ class Driver{
                if(temp_size <= 0){
                   System.out.println("Invalid table size.");
                }else{
-                  EmptyPets.add(EmptyNoPets.size(), new Table(input, temp_size));
+                  temp_table = new Table(input, temp_size);
+                  EmptyNoPets.add(binarySearchCapacity(EmptyNoPets, temp_size), temp_table);
                   System.out.println("Table successfully added.");
                }
             }
