@@ -299,7 +299,6 @@ class Driver{
                      }
                      //insert new table into the correct spot, maintaining order of capacity
                      temp_table = new Table(temp_name, temp_size);
-                     System.out.println("DEBUG: " +binarySearchCapacity(lref, temp_size));
                      lref.add((binarySearchCapacity(lref, temp_size)), temp_table);
                      System.out.println("Table successfully added.");
                   }
@@ -419,7 +418,6 @@ class Driver{
 		int mid = 0;
 		while(low < high) {
 			mid = (low + high)/2;
-         System.out.println("Inner debug: "+mid+" "+number+" "+tables.get(mid).getCapacity());
 			if(number <= tables.get(mid).getCapacity()) {
          
 				high = mid;
