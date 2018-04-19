@@ -139,6 +139,7 @@ class Driver{
 						if(EmptyPets.get(numberForAvilable).getCapacity() >= number) {
 							//Add to FullTables(Sorted);
 							Table table = EmptyPets.get(numberForAvilable);
+							table.seat(newParty);
 						   FullTables.add(binarySearchPartyName(FullTables, party.getName()), table);
 							EmptyPets.remove(numberForAvilable);	
 						}
@@ -150,6 +151,7 @@ class Driver{
 						int numberForAvilable = binarySearchCapacity(EmptyNoPets, number);
 						if(EmptyPets.get(numberForAvilable).getCapacity() >= number) {
 							Table table = EmptyNoPets.get(numberForAvilable);
+							table.seat(newParty);
 						   FullTables.add(binarySearchPartyName(FullTables, party.getName()), table);
 							EmptyNoPets.remove(numberForAvilable);	
 						}
@@ -175,6 +177,7 @@ class Driver{
 							int index1 = binarySearchCapacity(EmptyPets, numberOfPeople);
 							if(EmptyPets.get(index1).getCapacity() >= numberOfPeople) {
 								Table table = EmptyPets.get(index1);
+								table.seat(party);
 								FullTables.add(binarySearchPartyName(FullTables, party.getName()), table);
 								EmptyPets.remove(index1);
 								served = true;
@@ -194,6 +197,7 @@ class Driver{
 							int index1 = binarySearchCapacity(EmptyNoPets, numberOfPeople);
 							if(EmptyNoPets.get(index1).getCapacity() >= numberOfPeople) {
 								Table table = EmptyNoPets.get(index1);
+								table.seat(party);
 								FullTables.add(binarySearchPartyName(FullTables, party.getName()), table);
 								EmptyNoPets.remove(index1);
 								served = true;
