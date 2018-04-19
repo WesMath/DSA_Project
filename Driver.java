@@ -6,7 +6,11 @@ class Driver{
    static BufferedReader stdin = new BufferedReader (new InputStreamReader(System.in));
 
 
-
+  /**
+   * Test the project.
+   * @param args args Unused.
+   * @throws IOException Throws exception if an input or output exception occurred.
+   */	
    public static void main(String[] args) throws IOException{
       String input = "";
       int temp_size, amount;//Prevents repeated method calls for every loop evaluation
@@ -391,6 +395,12 @@ class Driver{
       System.out.println("The restaurant is closing...");
    }
    
+  /**
+   * Return true if searchKey is in collection of section, otherwise return false.
+   * @param section Use this collection to check whether searchKey in section or not.
+   * @param searchKey Search this parameter in collection.
+   * @return Return true if searchKey is in collection of section, otherwise return false.
+   */
    public static boolean seqSearchTableName(ListArrayBasedPlus<Table> section, String searchKey){
       int temp_size = section.size();
       for(int i = 0; i < temp_size; i++){
@@ -401,6 +411,12 @@ class Driver{
       return false;
    }
    
+  /**
+   * Return true if searchKey is in collection of line, otherwise return false.
+   * @param line section Use this collection to check whether searchKey in line or not.
+   * @param searchKey Search this parameter in collection.
+   * @return Return true if searchKey is in collection of line, otherwise return false.
+   */
    public static boolean seqSearchPartyName(ListArrayBasedPlus<Party> line, String searchKey){
       int temp_size = line.size();
       for(int i = 0; i < temp_size; i++){
@@ -410,7 +426,12 @@ class Driver{
       }
       return false;
    }
-  
+  /**
+   * Return index of collection tables which matches the parameter of number.
+   * @param tables Use this collection to check whether number in line or not.
+   * @param number Search this parameter in collection.
+   * @return Return index of collection tables which matches the parameter of number.
+   */
     //Given a number, use that number to search whether there is a table in collection is exist.
    public static int binarySearchCapacity(ListArrayBasedPlus<Table> tables, int number) {
 		int size = tables.size();
@@ -436,6 +457,13 @@ class Driver{
          return mid+1;
       }
    }
+
+  /**
+   * Insert parameter of table to particular collection, and return this collection.
+   * @param tables Insert table to this collection.
+   * @param table Insert this parameter to particular collection.
+   * @return Insert parameter of table to particular collection, and return this collection.
+   */
    //Insert a table in sorted collections, using binary search to find particular position.
    public static ListArrayBasedPlus<Table> insertTable(ListArrayBasedPlus<Table> tables, Table table){
 		int size = tables.size();
@@ -459,7 +487,13 @@ class Driver{
 		}
 		return tables;
    }
-	
+   
+  /**
+   * Return index of fullTable. 
+   * @param fullTable Use this collection to check whether there is responding key in collection of fullTable.
+   * @param searchKey Use this searchKey to check whether there is responding key in collection of fullTable.
+   * @return Return index of fullTable.
+   */
    //This method is designed for Option Three, return a integer, if it is -1, it means not searchKey in the collection, 
    //otherwise it will return position of searchKey.
    public static int binarySearchPartyName(ListArrayBasedPlus<Table> fullTable, String searchKey) {
