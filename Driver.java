@@ -411,6 +411,22 @@ class Driver{
       return false;
    }
    
+   /**
+   * Return true if searchKey is in collection of section, otherwise return false.
+   * @param section Use this collection to check whether searchKey in section or not.
+   * @param searchKey Search this parameter in collection.
+   * @return Return true if searchKey is in collection of section, otherwise return false.
+   */
+   public static boolean seqSearchTableName(ListArrayBasedPlus<Table> section, String searchKey, boolean inPetSection){
+      int temp_size = section.size();
+      for(int i = 0; i < temp_size; i++){
+         if(section.get(i).getName().equals(searchKey) && (section.get(i).getParty().getHasPet() == inPetSection)){
+            return true;
+         }
+      }
+      return false;
+   }
+   
   /**
    * Return true if searchKey is in collection of line, otherwise return false.
    * @param line section Use this collection to check whether searchKey in line or not.
