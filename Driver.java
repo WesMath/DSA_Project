@@ -50,47 +50,162 @@ class Driver{
             case "0"://0.  Close the restaurant.
                break;
             case "1"://Customer party enters the restaurant.
-              System.out.println("Welcome to XXX Restaurant!");
-   				System.out.println("Can you give me a name for your party?");
-   				String nameForParty = stdin.readLine();
-   				System.out.println("The name is " + nameForParty);
-   				boolean find  = binarySearchForName(FullTables, nameForParty);
-   				int number = 0;
-   				boolean hasPet = false;
-   				while(find) {
-   					System.out.println("Sorry, This name is used by the other party, please use another one");
-   					nameForParty = stdin.readLine();
-   					System.out.println("The name will be used: " + nameForParty);
-   					find = binarySearchForName(FullTables, nameForParty);
-   				}
-   				if(!find) {
-   					System.out.println("How many people are there in your party?");
-   					String numberOfString = stdin.readLine();
-   					number = Integer.parseInt(numberOfString);
-   					System.out.println("Would you like to have dinner in pet section? Y/N");
-   					String withPet = stdin.readLine();
-   					if(withPet.equals("Y")) 
-   						hasPet = true;	
-   				}
-   				Party newParty = new Party(nameForParty, number, hasPet);
-   				//If there is an available table, be seated immediately, otherwise waiting in line.
-   				if(EmptyNoPets.size() == 0 && EmptyPets.size() == 0) {
-   					PartiesInLine.add(PartiesInLine.size()-1, newParty);
-   				}
-   				else {
-   					//Checking there is a line or not and there is an available table or not.
-   					if(hasPet && PartiesInLine.size() == 0) {
-   						Table avilableTable = binarySearchForTable(EmptyPets, number);
-   						if(avilableTable != null) {
-   							//Add to FullTables(Sorted);
-   
-   						}
-   					}
-   
-   				}
+             System.out.print("Enter customer name : ");
+				String nameForParty = stdin.readLine();
+				System.out.println(nameForParty);
+				boolean find  = binarySearchForName(FullTables, nameForParty);
+				int number = 0;
+				boolean hasPet = false;
+				while(find) {
+					System.out.println("There already exists a customer with this name in the restaurant.");
+					System.out.println("			Please select another name.");
+					System.out.print("Enter customer name: ");
+					nameForParty = stdin.readLine();
+					System.out.println(nameForParty);
+					find = binarySearchForName(FullTables, nameForParty);
+				}
+				if(!find) {
+					System.out.print("Enter number of seats for customer " + nameForParty + ": ");
+					String numberOfString = stdin.readLine();
+					number = Integer.parseInt(numberOfString);
+					System.out.println(number);
+					System.out.print("Does your part have pets (Y/N)?");
+					String withPet = stdin.readLine();
+					System.out.println(withPet);
+					if(withPet.equals("Y")) 
+						hasPet = true;	
+				}
+				Party newParty = new Party(nameForParty, number, hasPet);
+				//If there is an available table, be seated immediately, otherwise waiting in line.
+				if(EmptyNoPets.isEmpty() && EmptyPets.size() == 0) {
+					PartiesInLine.add(PartiesInLine.size()-1, newParty);
+				}
+				else {
+					//Checking there is a line or not and there is an available table or not.
+					if(hasPet && PartiesInLine.isEmpty()) {
+						int numberForAvilable = binarySearchForTable(EmptyPets, number);
+						if(numberForAvilable != -1) {
+							//Add to FullTables(Sorted);
+							Table table = EmptyPets.get(numberForAvilable);
+							FullTables = insertTable(FullTables, table);
+							EmptyPets.remove(numberForAvilable);	
+						}
+						else {
+							PartiesInLine.add(PartiesInLine.size()-1, newParty);
+						}
+					}
+					else if(!hasPet && PartiesInLine.isEmpty()) {
+						int numberForAvilable = binarySearchForTable(EmptyNoPets, number);
+						if(numberForAvilable != -1) {
+							Table table = EmptyNoPets.get(numberForAvilable);
+							FullTables = insertTable(FullTables, table);
+							EmptyNoPets.remove(numberForAvilable);	
+						}
+						else {
+							PartiesInLine.add(PartiesInLine.size()-1, newParty);
+						}
+					}
+					else {
+						PartiesInLine.add(PartiesInLine.size()-1, newParty);
+					}
+				}
    				break;
-            case "2"://Customer party is seated and served.
-            case "3"://Customer party leaves the restaurant.
+            case "2":
+			 //Customer party is seated and served.
+			 if(!PartiesInLine.isEmpty()) {
+					boolean served = false;
+					int index = 0;
+					while(!served && index < PartiesInLine.size()) {
+						Party party = PartiesInLine.get(index);
+						boolean petSection = party.hasPet;
+						int numberOfPeople = party.size;
+						if(petSection) {
+							int index1 = binarySearchForTable(EmptyPets, numberOfPeople);
+							if(index1 != -1) {
+								Table table = EmptyPets.get(index1);
+								FullTables = insertTable(FullTables, table);
+								EmptyPets.remove(index1);
+								served = true;
+								System.out.println("Serving Customer " + 
+										party.name + " party of " + 
+										party.size + "(Pet) at table " + 
+										table.name + " with " + table.capacity + " seats.");
+							}
+							else {
+								index++;
+								System.out.println("Could not find a table with " + 
+										party.size + " seats for customer " + 
+										party.name + " !");
+							}
+						}
+						else {
+							int index1 = binarySearchForTable(EmptyNoPets, numberOfPeople);
+							if(index1 != -1) {
+								Table table = EmptyNoPets.get(index1);
+								FullTables = insertTable(FullTables, table);
+								EmptyNoPets.remove(index1);
+								served = true;
+								System.out.println("Serving Customer " + 
+										party.name + " party of " + 
+										party.size + "(No Pet) at table " + 
+										table.name + " with " + table.capacity + " seats.");
+							}
+							else {
+								index++;
+								System.out.println("Could not find a table with " + 
+										party.size + " seats for customer " + 
+										party.name + " !");
+							}
+						}
+					}
+					if(!served) {
+						System.out.println("No party can be served!");
+					}
+				}
+				else {
+					System.out.println("No customers to serve!");
+				}
+				break;
+            case "3":
+			 //Customer party leaves the restaurant.
+			 if(FullTables.isEmpty()) {
+					System.out.println("No customer is being served");
+				}
+				else {
+					System.out.print("Enter the name of the customer that wants to leave: ");
+					String name = stdin.readLine();
+					System.out.println(name);
+					int index = binarySearchForLeavingCustomer(FullTables, name);
+					if(index == -1) {
+						boolean find1 = binarySearchForNameForParty(PartiesInLine, name);
+						if(find1) {
+							System.out.println("Customer " + name + "is not being served but waiting to be seated");
+						}
+						else {
+							System.out.println("No That Person!");
+						}
+					}
+					else {
+						Table table = FullTables.get(index);
+						System.out.println("Table " + table.name + " with " + table.capacity + " seats has been freed");
+						Party party = table.getParty();
+						boolean hasPets = party.hasPet;
+						String ss = "";
+						if(hasPets) {
+							ss = "(Pet)";
+							EmptyPets = insertTable(EmptyPets, table);
+						}
+						else {
+							ss = "(No Pet)";
+							EmptyNoPets = insertTable(EmptyNoPets, table);	
+						}
+						System.out.println("Customer Customer " + 
+								party.getName() + " party of " + 
+								party.size + ss + " is leaving the restaurant." );
+						FullTables.remove(index);
+					}
+				}
+				break;
             
             case "4"://Add a table.
                System.out.println("To which section would you like to add this table?(P/N)");
@@ -225,7 +340,8 @@ class Driver{
       }
       System.out.println("The restaurant is closing...");
    }
- public static boolean binarySearchForName(ListArrayBasedPlus<Table> fullTable, String searchKey) {
+  
+    public static boolean binarySearchForName(ListArrayBasedPlus<Table> fullTable, String searchKey) {
 		boolean find = false;
 		int sizeOfFullTable = fullTable.size();
 		int low = 0;
@@ -249,7 +365,31 @@ class Driver{
 		return find;
 	}
 
-	public static Table binarySearchForTable(ListArrayBasedPlus<Table> tables, int number) {
+    public static boolean binarySearchForNameForParty(ListArrayBasedPlus<Party> party, String searchKey) {
+		boolean find = false;
+		int sizeOfFullTable = party.size();
+		int low = 0;
+		int high = sizeOfFullTable -1;
+		int mid = 0;
+		while(low < high) {
+			mid = (low + high)/2;
+			if(searchKey.compareTo(party.get(mid).getName()) < 0 || searchKey.compareTo(party.get(mid).getName()) == 0) {
+				high = mid;
+			}
+			else {
+				low = mid +1;
+			}
+		}
+		if(searchKey.compareTo(party.get(mid).getName()) == 0) {
+			find = true;
+		}
+		else {
+			find = false;
+		}
+		return find;
+    }
+
+    public static int binarySearchForTable(ListArrayBasedPlus<Table> tables, int number) {
 		int size = tables.size();
 		int low = 0;
 		int high = size-1;
@@ -264,14 +404,14 @@ class Driver{
 			}
 		}
 		if(number <= tables.get(mid).capacity) {
-			return tables.get(mid);
+			return mid;
 		}
 		else {
-			return null;
+			return -1;
 		}
-	}
+    }
 
-	public static ListArrayBasedPlus<Table> insertTable(ListArrayBasedPlus<Table> tables, Table table){
+    public static ListArrayBasedPlus<Table> insertTable(ListArrayBasedPlus<Table> tables, Table table){
 		int size = tables.size();
 		int low = 0;
 		int high = size-1;
@@ -292,7 +432,30 @@ class Driver{
 			tables.add(mid+1, table);
 		}
 		return tables;
-	}
+    }
+	
+    public static int binarySearchForLeavingCustomer(ListArrayBasedPlus<Table> fullTable, String searchKey) {
+		int sizeOfFullTable = fullTable.size();
+		int low = 0;
+		int high = sizeOfFullTable -1;
+		int mid = 0;
+		while(low < high) {
+			mid = (low + high)/2;
+			if(searchKey.compareTo(fullTable.get(mid).getName()) < 0 || searchKey.compareTo(fullTable.get(mid).getName()) == 0) {
+				high = mid;
+			}
+			else {
+				low = mid +1;
+			}
+		}
+		if(searchKey.compareTo(fullTable.get(mid).getName()) == 0) {
+			return mid;
+		}
+		else {
+			return -1;
+		}
+   }
+   	
    
    public void addTable(ListArrayBasedPlus<Table> empty_tables){
       System.out.println();
