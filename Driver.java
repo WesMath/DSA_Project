@@ -148,7 +148,7 @@ class Driver{
 					}
 					else if(!hasPet && PartiesInLine.isEmpty()) {
 						int numberForAvilable = binarySearchCapacity(EmptyNoPets, number);
-						if(numberForAvilable != -1) {//TODO change condition
+						if(EmptyPets.get(numberForAvilable).getCapacity() >= number) {
 							Table table = EmptyNoPets.get(numberForAvilable);
 							FullTables = insertTable(FullTables, table);
 							EmptyNoPets.remove(numberForAvilable);	
@@ -173,7 +173,7 @@ class Driver{
 						int numberOfPeople = party.getSize();
 						if(petSection) {
 							int index1 = binarySearchCapacity(EmptyPets, numberOfPeople);
-							if(index1 != -1) {//TODO change condition
+							if(EmptyPets.get(index1).getCapacity() >= numberOfPeople) {
 								Table table = EmptyPets.get(index1);
 								FullTables = insertTable(FullTables, table);
 								EmptyPets.remove(index1);
@@ -192,7 +192,7 @@ class Driver{
 						}
 						else {
 							int index1 = binarySearchCapacity(EmptyNoPets, numberOfPeople);
-							if(index1 != -1) {//TODO change condition
+							if(EmptyNoPets.get(index1).getCapacity() >= numberOfPeople) {
 								Table table = EmptyNoPets.get(index1);
 								FullTables = insertTable(FullTables, table);
 								EmptyNoPets.remove(index1);
@@ -219,45 +219,19 @@ class Driver{
 				}
 				break;
             case "3":
-			 //Customer party leaves the restaurant.
-			if(FullTables.isEmpty()) {
-					System.out.println("No customer is being served");
-				}
-				else {
-					System.out.print("Enter the name of the customer that wants to leave: ");
+			      //Customer party leaves the restaurant.
+   			   if(FullTables.isEmpty()) {
+   					System.out.println("No customer is being served");
+   				}
+   				else {
+					System.out.print("Enter the name of the party that wants to leave: ");
 					String name = stdin.readLine();
 					System.out.println(name);
 					int index = binarySearchPartyName(FullTables, name);
-					if(index == -1) {//TODO change condition
-						boolean find11 = false;
-						int sizeOfFullTable = PartiesInLine.size();
-						int low = 0;
-						int high = sizeOfFullTable -1;
-						int mid = 0;
-						while(low < high) {
-							mid = (low + high)/2;
-							if(name.compareTo(PartiesInLine.get(mid).getName()) < 0 || name.compareTo(PartiesInLine.get(mid).getName()) == 0) {
-								high = mid;
-							}
-							else {
-								low = mid +1;
-							}
-						}
-						if(name.compareTo(PartiesInLine.get(mid).getName()) == 0) {
-							find11 = true;
-						}
-						
-						if(find11) {
-							System.out.println("Customer " + name + "is not being served but waiting to be seated");
-						}
-						else {
-							System.out.println("No That Person!");
-						}
-					}
-					else {
+					if(FullTables.get(index).getParty().getName().equals(name)) {
 						Table table = FullTables.get(index);
 						System.out.println("Table " + table.getName() + " with " + table.getCapacity() + " seats has been freed");
-						Party party = table.getParty();
+						Party party = table.removeParty();//sets Table's field to null so it may be returned
 						boolean hasPets = party.getHasPet();
 						String ss = "";
 						if(hasPets) {
@@ -290,19 +264,21 @@ class Driver{
    					System.out.println("Please provide a unique name for this table: ");
    					temp_name =	stdin.readLine().trim();
    					System.out.println(temp_name);//echo input
+                  
+                  if(output.equals("P")){
+                        lref = EmptyPets;
+                  }else{//Already validated input, so no need for second conditional check
+                        lref = EmptyNoPets;
+                  }
    					
                   //The filled tables are kept sorted by PARTY name, not TABLE name, so sequential search is necessary
-                  table_found = seqSearchTableName(EmptyPets, temp_name) || seqSearchTableName(EmptyNoPets, temp_name)|| seqSearchTableName(FullTables, temp_name);
+                  table_found = seqSearchTableName(lref, temp_name) || seqSearchTableName(FullTables, temp_name, (output.equals("P")));
                   
                   if(!table_found){//We know the name is unique and can go ahead and add it to the proper section
                      System.out.println("Please give the seating capacity for this table: ");
                      temp_size = Integer.parseInt(stdin.readLine().trim());
                      System.out.println(temp_size);//echo input
-                     if(output.equals("P")){
-                        lref = EmptyPets;
-                     }else{//Already validated input, so no need for second conditional check
-                        lref = EmptyNoPets;
-                     }
+                     
                      //insert new table into the correct spot, maintaining order of capacity
                      temp_table = new Table(temp_name, temp_size);
                      lref.add((binarySearchCapacity(lref, temp_size)), temp_table);
