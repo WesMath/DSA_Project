@@ -462,6 +462,9 @@ class Driver{
    //otherwise it will return position of searchKey.
    public static int binarySearchPartyName(ListArrayBasedPlus<Table> fullTable, String searchKey) {
 		int sizeOfFullTable = fullTable.size();
+      if(sizeOfFullTable == 0){
+         return 0;
+      }
 		int low = 0;
 		int high = sizeOfFullTable -1;
 		int mid = 0;
@@ -474,7 +477,11 @@ class Driver{
 				low = mid +1;
 			}
 		}
-      return mid;
+      if(number <= fullTable.get(mid).getCapacity()){
+		   return mid;//Calling method can decide whether to check for equality or use this position to insert
+      }else{
+         return mid+1;
+      }
   }
    
    
