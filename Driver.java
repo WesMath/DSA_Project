@@ -57,7 +57,7 @@ class Driver{
             System.out.println("Please give the name for Table #"+i+": ");
             input = stdin.readLine().trim();
             System.out.println(input);//echoed input
-            table_found = seqSearchTableName(EmptyPets, input) || seqSearchTableName(EmptyNoPets, input);
+            table_found = seqSearchTableName(EmptyNoPets, input);
             if(table_found){
                System.out.println("That table already exists; please try again.");
             }else{
@@ -479,7 +479,7 @@ class Driver{
 				low = mid +1;
 			}
 		}
-      if(number <= fullTable.get(mid).getCapacity()){
+      if(searchKey.compareTo(fullTable.get(mid).getName()) <= 0){
 		   return mid;//Calling method can decide whether to check for equality or use this position to insert
       }else{
          return mid+1;
