@@ -14,6 +14,14 @@ public class Party{
       return name;
    }
    
+   public int getSize(){
+      return size;
+   }
+   
+   public boolean getHasPet(){
+      return hasPet;
+   }
+   
    public String toString(){
       return "Name: "+name+"\nSize: "+size+"\nHas pets: "+hasPet;
    }
