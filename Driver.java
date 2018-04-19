@@ -103,6 +103,7 @@ class Driver{
 				if((index2 < FullTables.size()) && FullTables.get(index2).getName().compareTo(nameForParty) == 0) {
 					find = true; 
 				}
+            System.out.println("index2 is " +index2);
 				int number = 0;
 				boolean hasPet = false;
             find = seqSearchPartyName(PartiesInLine, nameForParty) || find;
@@ -359,7 +360,7 @@ class Driver{
                if(temp_size > 0){
                   output = "";
                   for(int i = 0; i < temp_size; i++){
-                     output += FullTables.get(i).getParty().toString() + "\n";
+                     output += FullTables.get(i).getParty().toString() + "\n\n";
                   }
                }else{
                   output = "No parties are currently being served.";
@@ -475,7 +476,7 @@ class Driver{
 				low = mid+1;
 			}
 		}
-		if(table.getName().compareTo(tables.get(mid).getName()) <= 0) {
+		if(table.getName().compareTo(tables.get(mid).getName()) == 0) {
 			tables.add(mid, table);
 		}
 		else {
@@ -509,7 +510,7 @@ class Driver{
 				low = mid +1;
 			}
 		}
-      if(searchKey.compareTo(fullTable.get(mid).getName()) <= 0){
+      if(searchKey.compareTo(fullTable.get(mid).getName()) == 0){
 		   return mid;//Calling method can decide whether to check for equality or use this position to insert
       }else{
          return mid+1;
