@@ -455,36 +455,7 @@ class Driver{
       }
    }
 
-  /**
-   * Insert parameter of table to particular collection, and return this collection.
-   * @param tables Insert table to this collection.
-   * @param table Insert this parameter to particular collection.
-   * @return Insert parameter of table to particular collection, and return this collection.
-   */
-   //Insert a table in sorted collections, using binary search to find particular position.
-   public static ListArrayBasedPlus<Table> insertTable(ListArrayBasedPlus<Table> tables, Table table){
-		int size = tables.size();
-		int low = 0;
-		int high = size-1;
-		int mid = 0;
-		while(low < high) {
-			mid = (low + high)/2;
-			if(table.getName().compareTo(tables.get(mid).getName()) <= 0) {
-				high = mid;
-			}
-			else {
-				low = mid+1;
-			}
-		}
-		if(table.getName().compareTo(tables.get(mid).getName()) == 0) {
-			tables.add(mid, table);
-		}
-		else {
-			tables.add(mid+1, table);
-		}
-		return tables;
-   }
-   
+ 
   /**
    * Return index of fullTable. 
    * @param fullTable Use this collection to check whether there is responding key in collection of fullTable.
