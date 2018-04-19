@@ -116,8 +116,8 @@ class Driver{
 					int index = 0;
 					while(!served && index < PartiesInLine.size()) {
 						Party party = PartiesInLine.get(index);
-						boolean petSection = party.hasPet;
-						int numberOfPeople = party.size;
+						boolean petSection = party.getHasPet();
+						int numberOfPeople = party.getSize();
 						if(petSection) {
 							int index1 = binarySearchForTable(EmptyPets, numberOfPeople);
 							if(index1 != -1) {
@@ -126,15 +126,15 @@ class Driver{
 								EmptyPets.remove(index1);
 								served = true;
 								System.out.println("Serving Customer " + 
-										party.name + " party of " + 
-										party.size + "(Pet) at table " + 
-										table.name + " with " + table.capacity + " seats.");
+										party.getName() + " party of " + 
+										party.getSize() + "(Pet) at table " + 
+										table.getName() + " with " + table.getCapacity() + " seats.");
 							}
 							else {
 								index++;
 								System.out.println("Could not find a table with " + 
-										party.size + " seats for customer " + 
-										party.name + " !");
+										party.getSize() + " seats for customer " + 
+										party.getName() + " !");
 							}
 						}
 						else {
@@ -145,15 +145,15 @@ class Driver{
 								EmptyNoPets.remove(index1);
 								served = true;
 								System.out.println("Serving Customer " + 
-										party.name + " party of " + 
-										party.size + "(No Pet) at table " + 
-										table.name + " with " + table.capacity + " seats.");
+										party.getName() + " party of " + 
+										party.getSize() + "(No Pet) at table " + 
+										table.getName() + " with " + table.getCapacity() + " seats.");
 							}
 							else {
 								index++;
 								System.out.println("Could not find a table with " + 
-										party.size + " seats for customer " + 
-										party.name + " !");
+										party.getSize() + " seats for customer " + 
+										party.getName() + " !");
 							}
 						}
 					}
@@ -186,9 +186,9 @@ class Driver{
 					}
 					else {
 						Table table = FullTables.get(index);
-						System.out.println("Table " + table.name + " with " + table.capacity + " seats has been freed");
+						System.out.println("Table " + table.getName() + " with " + table.getCapacity() + " seats has been freed");
 						Party party = table.getParty();
-						boolean hasPets = party.hasPet;
+						boolean hasPets = party.getHasPet();
 						String ss = "";
 						if(hasPets) {
 							ss = "(Pet)";
@@ -200,7 +200,7 @@ class Driver{
 						}
 						System.out.println("Customer Customer " + 
 								party.getName() + " party of " + 
-								party.size + ss + " is leaving the restaurant." );
+								party.getSize() + ss + " is leaving the restaurant." );
 						FullTables.remove(index);
 					}
 				}
@@ -208,7 +208,7 @@ class Driver{
             
             case "4"://Add a table.
                System.out.println("To which section would you like to add this table?(P/N)");
-					output =	stdin.readLine().trim();
+					output = stdin.readLine().trim();
 					System.out.println(output);//echo their decision
 					if(!(output.equals("P")	||	output.equals("N"))){//Validate input
 						System.out.println("Invalid section selection; please try again.");
@@ -418,7 +418,7 @@ class Driver{
 		int mid = 0;
 		while(low < high) {
 			mid = (low + high)/2;
-			if(number <= tables.get(mid).capacity) {
+			if(number <= tables.get(mid).getCapacity()) {
 				high = mid;
 			}
 			else {
