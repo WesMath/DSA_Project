@@ -340,7 +340,8 @@ class Driver{
       System.out.println("The restaurant is closing...");
    }
   
-    public static boolean binarySearchForName(ListArrayBasedPlus<Table> fullTable, String searchKey) {
+    //This method works for Option One, use a particular name to check whether it is in collection or not.
+   public static boolean binarySearchForName(ListArrayBasedPlus<Table> fullTable, String searchKey) {
 		boolean find = false;
 		int sizeOfFullTable = fullTable.size();
 		int low = 0;
@@ -363,8 +364,9 @@ class Driver{
 		}
 		return find;
 	}
-
-    public static boolean binarySearchForNameForParty(ListArrayBasedPlus<Party> party, String searchKey) {
+   //This method is just for PartiesInLine collection, to check there is a party with name of searchKey or not. 
+   //It works for Option Three, if the name given is not in FullTables, we have to check this name in PartiesInLine or not.
+   public static boolean binarySearchForNameForParty(ListArrayBasedPlus<Party> party, String searchKey) {
 		boolean find = false;
 		int sizeOfFullTable = party.size();
 		int low = 0;
@@ -386,9 +388,9 @@ class Driver{
 			find = false;
 		}
 		return find;
-    }
-
-    public static int binarySearchForTable(ListArrayBasedPlus<Table> tables, int number) {
+   }
+   //Given a number, use that number to search whether there is a table in collection is exist.
+   public static int binarySearchForTable(ListArrayBasedPlus<Table> tables, int number) {
 		int size = tables.size();
 		int low = 0;
 		int high = size-1;
@@ -408,9 +410,9 @@ class Driver{
 		else {
 			return -1;
 		}
-    }
-
-    public static ListArrayBasedPlus<Table> insertTable(ListArrayBasedPlus<Table> tables, Table table){
+   }
+   //Insert a table in sorted collections, using binary search to find particular position.
+   public static ListArrayBasedPlus<Table> insertTable(ListArrayBasedPlus<Table> tables, Table table){
 		int size = tables.size();
 		int low = 0;
 		int high = size-1;
@@ -431,9 +433,11 @@ class Driver{
 			tables.add(mid+1, table);
 		}
 		return tables;
-    }
+   }
 	
-    public static int binarySearchForLeavingCustomer(ListArrayBasedPlus<Table> fullTable, String searchKey) {
+   //This method is designed for Option Three, return a integer, if it is -1, it means not searchKey in the collection, 
+   //otherwise it will return position of searchKey.
+   public static int binarySearchForLeavingCustomer(ListArrayBasedPlus<Table> fullTable, String searchKey) {
 		int sizeOfFullTable = fullTable.size();
 		int low = 0;
 		int high = sizeOfFullTable -1;
@@ -453,9 +457,7 @@ class Driver{
 		else {
 			return -1;
 		}
-   }
-   	
-   
+  }
    public void addTable(ListArrayBasedPlus<Table> empty_tables){
       System.out.println();
       String input = stdin.readLine().trim();
