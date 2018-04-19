@@ -236,11 +236,11 @@ class Driver{
 						String ss = "";
 						if(hasPets) {
 							ss = "(Pet)";
-							EmptyPets = insertTable(EmptyPets, table);
+                     EmptyPets.add(binarySearchCapacity(EmptyPets, table.getCapacity()), table);
 						}
 						else {
 							ss = "(No Pet)";
-							EmptyNoPets = insertTable(EmptyNoPets, table);	
+                     EmptyNoPets.add(binarySearchCapacity(EmptyNoPets, table.getCapacity()), table);
 						}
 						System.out.println("Customer Customer " + 
 								party.getName() + " party of " + 
